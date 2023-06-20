@@ -1,2 +1,2 @@
-# DartsBarrelsDataBase
+# DartsBarrelsDatabase
 ダーツのバレルのデータベースを作りたいなぁ
