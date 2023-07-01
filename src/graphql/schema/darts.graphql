@@ -1,0 +1,74 @@
+type Barrel {
+    id: ID!
+    name: String!
+    manufacturer: Manufacturer!
+    maxDiameter: Float!
+    length: Float!
+    weight: Float!
+    tip: TipType!
+    signaturePlayer: Player
+    series: Series
+}
+
+type Manufacturer {
+    id: ID!
+    name: String!
+}
+
+enum TipType {
+    SoftTip
+    SteelTip
+}
+
+type Player {
+    id: ID!
+    name: String!
+}
+
+type Series {
+    id: ID!
+    name: String!
+}
+
+type Query {
+    barrels(pagination: PaginationInput!): BarrelConnection!
+    barrel(id: ID!): Barrel
+    serchBarrels(input: SearchBarrelsInput!): BarrelConnection!
+}
+
+type BarrelConnection {
+    edges: [BarrelEdge!]!
+    pageInfo: PageInfo!
+}
+
+type BarrelEdge {
+    node: Barrel!
+    cursor: String!
+}
+
+input PaginationInput {
+    first: Int
+    after: String
+    last: Int
+    before: String
+}
+
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+}
+
+input SearchBarrelsInput {
+    name: String
+    manufacturerIds: [ID!]
+    tipTypes: [TipType!]
+    minWeight: Float
+    maxWeight: Float
+    minLength: Float
+    maxLength: Float
+    minMaxDiameter: Float
+    maxMaxDiameter: Float
+    pagination: PaginationInput!
+}
