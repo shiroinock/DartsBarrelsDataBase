@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Barrel {
+  id              String       @id @default(uuid())
+  name            String
+  manufacturer    Manufacturer @relation(fields: [manufacturerId], references: [id])
+  manufacturerId  String
+  maxDiameter     Float
+  length          Float
+  weight          Float
+  tip             TipType      @default(SoftTip)
+  signaturePlayer Player?      @relation(fields: [playerId], references: [id])
+  series          Series?      @relation(fields: [seriesId], references: [id])
+  playerId        String?
+  seriesId        String?
+}
+
+enum TipType {
+  SoftTip
+  SteelTip
+}
+
+model Manufacturer {
+  id     String   @id @default(uuid())
+  name   String
+  Barrel Barrel[]
+}
+
+model Player {
+  id     String   @id @default(uuid())
+  name   String
+  Barrel Barrel[]
+}
+
+model Series {
+  id     String   @id @default(uuid())
+  name   String
+  Barrel Barrel[]
+}
